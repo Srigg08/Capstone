@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css?family=Markazi+Text');
+@import url('https://fonts.googleapis.com/css2?family=Karla:wght@200..800&display=swap');
+
+footer{
+  color: white;
+  font-family:'Karla';
+  background-color: #495E57;
+}
+ul{
+  list-style-type: none;
+}
+
+#grid-adjustable-columns{
+  margin-inline:10%;
+  padding-top: 5%;
+}
+
+@media (max-width: 700px) {
+  #grid-adjustable-columns {
+    display: grid;
+    grid-auto-flow: row;
+  }
+  #siteNav,#contact,#socials{
+    padding-left: 0%;
+  }
+}
+
+@media (min-width: 701px) {
+  #grid-adjustable-columns {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    grid-template-rows: 500px;
+  }
+}

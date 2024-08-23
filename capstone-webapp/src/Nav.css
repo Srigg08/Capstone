@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css?family=Markazi+Text');
+@import url('https://fonts.googleapis.com/css2?family=Karla:wght@200..800&display=swap');
+#col-6{
+    display: grid;
+    grid-template-columns: repeat(3, 2fr) 3fr 3fr 2fr;
+    grid-template-rows: 50px;
+    list-style-type: none;
+}
+
+nav{
+    position: sticky;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color:aquamarine;
+    font-family: 'Karla';
+    z-index: 100;
+}
+
+@media (max-width: 700px) {
+    nav{
+        font-size: 12px;
+    }
+}
+img#top-logo{
+    padding-inline-start: 25px;
+}

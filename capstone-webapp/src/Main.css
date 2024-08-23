@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css?family=Markazi+Text');
+@import url('https://fonts.googleapis.com/css2?family=Karla:wght@200..800&display=swap');
+main{
+    background-color: #495E57;
+    color: white;
+    font-family: 'Karla';
+}
+.alternate h1{
+    color: black;
+}
+h1{
+    color: #F4CE14;
+    font-family: 'Markazi Text';
+    margin-left: 20%;
+    padding-top: .67em;
+    margin-top:0%;
+}
+.alternate{
+    background-color:white;
+    color:black;
+}
+
+.content{
+    margin-left: 50px;
+}
+
+.cards,.cards4{
+    padding: 0% 10%;
+}
+
+@media (max-width: 700px) {
+    .cards{
+        display: grid;
+        grid-template-columns:auto;
+        grid-template-rows: 1fr 1fr 1fr;
+    }
+    .cards4{
+        display: grid;
+        grid-template-columns:auto;
+        grid-template-rows: repeat(4,1fr);
+    }
+}
+@media (min-width: 701px) {
+    .cards{
+        display: grid;
+        grid-template-columns:1fr 1fr 1fr;
+        grid-template-rows: auto;
+    }
+    .cards4{
+        display: grid;
+        grid-template-columns:repeat(4,1fr);
+        grid-template-rows: auto;
+    }
+}
