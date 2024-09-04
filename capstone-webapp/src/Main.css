@@ -4,6 +4,7 @@ main{
     background-color: #495E57;
     color: white;
     font-family: 'Karla';
+    min-height: 150px;
 }
 .alternate h1{
     color: black;

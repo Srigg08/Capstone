@@ -1,7 +1,9 @@
 import "./Main.css";
 import Nav from "./Nav.js";
-import {BrowserRouter as Router, Route, Routes, useLocation} from 'react-router-dom';
-import { useEffect } from "react";
+import BookingPage from "./BookingPage.js"
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import {fetchAPI, submitAPI} from "./mockAPI.js";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -52,7 +54,7 @@ const Special = (props) => {
 
 const Specials = () => {
     return (
-        <div className='alternate'>
+        <>
             <h1>Specials</h1>
             <div className='cards'>
             <Special name="Greek Salad"
@@ -68,7 +70,7 @@ const Specials = () => {
                     price="$14.99"
                     description="A delicious meal the likes of which you have never tasted!!"/>
             </div>
-        </div>
+        </>
     );
 };
 
@@ -117,7 +119,7 @@ const Testimonials = () => {
 
 const About = () => {
     return (
-        <div className='alternate'>
+        <>
             <h1>Little Lemon</h1>
             <div style={{display:'grid',
             gridTemplateAreas:'"description image"',
@@ -133,7 +135,7 @@ const About = () => {
                     <p>Little Lemon was founded some time ago by two borthers that wanted to provide good Italian and Mediterranean foodstuffs to people that like eating foodstuffs.</p>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 
@@ -141,30 +143,23 @@ const HomePage =() =>{
     return(
         <>
         <Hero/>
-        <Specials/>
+        <div className='alternate'>
+            <Specials/>
+        </div>
         <Testimonials/>
-        <About />
+        <div className='alternate'>
+            <About />
+        </div>
         </>
     );
 };
 
-const BookingPage = () => {
-    return(
-        <>
-        <h1>Reserve a Table</h1>
-        <div className='content'>
-            <p>Various menus for date/time, party size go here.</p>
-        </div>
-        </>
-    );
-};
+
 const Menu = () => {
     return(
         <>
         <h1>Menu</h1>
-        <div className='content'>
-            <p>Various menu items and prices would go here.</p>
-        </div>
+        <p className='content'>Various menu items and prices would go here.</p>
         </>
     );
 };
@@ -172,9 +167,7 @@ const Order = () => {
     return(
         <>
         <h1>Order Online</h1>
-        <div className='content'>
-            <p>Your current cart might be shown here, added from the menu section. Or, just add the menu component here as well?</p>
-        </div>
+        <p className='content'>Your current cart might be shown here, added from the menu section. Or, just add the menu component here as well?</p>
         </>
     );
 };
@@ -182,17 +175,41 @@ const Login = () => {
     return(
         <>
         <h1>Login</h1>
-        <div className='content'>
-            <p>Enter user email and password to login to your Little Lemon rewards account!</p>
-        </div>
+        <p className='content'>Enter user email and password to login to your Little Lemon rewards account!</p>
         </>
     );
 };
 
+const ConfinrmedBooking = () => {
+    return(
+        <>
+        <h1>Your booking has been confirmed!</h1>
+        <p className='content'>Include booking details here</p>
+        </>
+    )
+}
+
 
 function Main() {
+    const currentDate= new Date();
+    const [availableTimes, setAvailableTimes] = useState([""]);
+    const [date, setDate] = useState(currentDate.toJSON().slice(0,10));
+    const navigate = useNavigate();
+
+    const submitForm = async (formData) => {
+        const success = await submitAPI(formData);
+        console.log("form submitted:",success);
+        if(success) navigate("/bookingconf");
+    };
+
+    useEffect(() => {
+        fetchAPI(date)
+            .then(data => setAvailableTimes(data))
+            .catch(error => {console.error('Error:', error);setAvailableTimes(["Invalid Date"]);});//Need to edit this for better error resolution, likely
+    },[date]);
+
     return (
-        <Router>
+        <>
             <ScrollToTop/>
         <Nav />
         <main>
@@ -200,12 +217,16 @@ function Main() {
                 <Route path="/" element={<HomePage/>}/>
                 <Route path="/about" element={<About/>}/>
                 <Route path="/menu" element={<Menu/>}/>
-                <Route path="/booking" element={<BookingPage/>}/>
+                <Route path="/booking" element={<BookingPage availableTimes={availableTimes}
+                                                            date={date}
+                                                            setDate={setDate}
+                                                            submitForm={submitForm}/>}/>
+                <Route path="/bookingconf" element={<ConfinrmedBooking/>}/>
                 <Route path="/order" element={<Order/>}/>
                 <Route path="/login" element={<Login/>}/>
             </Routes>
         </main>
-        </Router>
+        </>
     );
   };
   export default Main;
