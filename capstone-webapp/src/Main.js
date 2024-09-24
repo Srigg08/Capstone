@@ -3,7 +3,7 @@ import Nav from "./Nav.js";
 import BookingPage from "./BookingPage.js"
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from "react";
-import {fetchAPI, submitAPI} from "./mockAPI.js";
+import { fetchAPI, submitAPI } from "./mockAPI.js";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -19,36 +19,36 @@ const Hero = () => {
     return (
         <>
         <h1>Little Lemon</h1>
-        <div style={{display:'grid',
+        <section style={{display:'grid',
             gridTemplateAreas:'"description image" "button image"',
             gridTemplateRows:'2fr 1fr',
             margin: '0% 20%',
             paddingBottom: '10px'}}>
             <img src={require('./images/restauranfood.jpg')} alt="restaurant food" style={{gridArea:'image',maxHeight:'300px'}}/>
-            <div style={{gridArea:'description',paddingRight:'35%'}}>
+            <section style={{gridArea:'description',paddingRight:'35%'}}>
                 <h2>Chicago</h2>
                 <p>Little Lemon was founded some time ago by two borthers that wanted to provide good Italian and Mediterranean foodstuffs to people that like eating foodstuffs.</p>
-            </div>
+            </section>
             <h2 style={{gridArea: 'button'}}>Reserve a Table</h2>
-        </div>
+        </section>
         </>
     );
 };
 
 const Special = (props) => {
     return(
-        <div style={{display:'grid',
+        <figure style={{display:'grid',
                     gridTemplateAreas:'"image image" "name price" "description description" "order order"',
                     gridTemplateRows:'1.5fr .5fr 1.5fr .5fr',
                     border: 'solid',
                     textAlign:'center',
                     margin: '5% 10%'}}>
-            <img src={props.image} alt="Dish" style={{gridArea:'image', width:'auto', maxHeight: '150px', justifySelf: 'center'}} />
-            <h2 style={{gridArea:'name'}}>{props.name}</h2>
-            <h2 style={{gridArea:'price', color: '#EE9972'}}>{props.price}</h2>
+            <img src={props.image} alt="Dish" style={{gridArea:'image', maxWidth:'100%', maxHeight: '150px', justifySelf: 'center'}} />
+            <h2 className='specialMenu' style={{gridArea:'name'}}>{props.name}</h2>
+            <h2 className='specialMenu' style={{gridArea:'price', color: '#EE9972'}}>{props.price}</h2>
             <p style={{gridArea:'description', margin:'0% 5%'}}>{props.description}</p>
             <h3 style={{gridArea:'order'}}>Order for Delivery!</h3>
-        </div>
+        </figure>
     );
 }
 
@@ -56,7 +56,7 @@ const Specials = () => {
     return (
         <>
             <h1>Specials</h1>
-            <div className='cards'>
+            <section className='cards'>
             <Special name="Greek Salad"
                     image={require('./images/greekSalad.jpg')}
                     price="$12.99"
@@ -69,25 +69,23 @@ const Specials = () => {
                     image={require('./images/lemon dessert.jpg')}
                     price="$14.99"
                     description="A delicious meal the likes of which you have never tasted!!"/>
-            </div>
+            </section>
         </>
     );
 };
 
 const Testimony = (props) => {
     return(
-        <div style={{display:'grid',
-                    gridTemplateAreas:'"profile name" "review review"',
-                    gridTemplateColumns:'1fr 1fr',
+        <figure className='testimony' style={{
                     border: 'solid',
                     margin: '5% 10%'}}>
-            <img src={props.image} alt='profile' style={{gridArea:'profile',maxHeight:'150px'}} />
-            <div style={{gridArea:'name',textAlign:'center'}}>
+            <img className='profile' src={props.image} alt='profile' style={{display:'block', marginLeft:'auto',marginRight:'auto', maxHeight:'150px'}} />
+            <section className='rating' style={{textAlign:'center'}}>
                 <h2>{props.name}</h2>
                 <h3>{props.rating}</h3>
-            </div>
-            <p style={{gridArea:'review', margin: '5%'}}>{props.review}</p>
-        </div>
+            </section>
+            <p className='review' style={{margin: '5%'}}>{props.review}</p>
+        </figure>
     );
 };
 
@@ -95,7 +93,7 @@ const Testimonials = () => {
     return (
         <>
         <h1>Testimonials</h1>
-        <div className='cards4'>
+        <section className='cards4'>
             <Testimony name="Stefan"
                         image={require('./images/customer1.jpeg')}
                         rating="8/10"
@@ -112,7 +110,7 @@ const Testimonials = () => {
                         image={require('./images/customer4.jpeg')}
                         rating="7/10"
                         review="I liked the food and the atmosphere. Overall it was a good dining experience."/>
-        </div>
+        </section>
         </>
     );
 };
@@ -121,20 +119,21 @@ const About = () => {
     return (
         <>
             <h1>Little Lemon</h1>
-            <div style={{display:'grid',
+            <section style={{display:'grid',
             gridTemplateAreas:'"description image"',
             gridTemplateColumns:'1fr 1fr',
-            margin: '0% 20%',
-            minHeight:'400px'}}>
-                <div style={{gridArea:'image'}}>
-                    <img src={require('./images/Mario and Adrian A.jpg')} alt="founders A" style={{position:'absolute',maxHeight:'200px',paddingLeft:'250px'}}/>
-                    <img src={require('./images/Mario and Adrian b.jpg')} alt="founders B" style={{position:'absolute',maxHeight:'200px',paddingLeft:'100px',paddingTop:'100px'}}/>
-                </div>
-                <div style={{gridArea:'description'}}>
+            margin: '0% 10% 0% 20%'
+            ,minHeight:'400px'
+            }}>
+                <figure style={{gridArea:'image',width:'100%'}}>
+                    <img src={require('./images/Mario and Adrian A.jpg')} alt="founders A" style={{position:'absolute',maxHeight:'200px',paddingLeft:'7%',maxWidth:'300px',width:'30%',height:'auto'}}/>
+                    <img src={require('./images/Mario and Adrian b.jpg')} alt="founders B" style={{position:'absolute',maxHeight:'200px',paddingLeft:'0%',maxWidth:'300px',width:'30%',paddingTop:'100px'}}/>
+                </figure>
+                <section style={{gridArea:'description'}}>
                     <h2>Chicago</h2>
                     <p>Little Lemon was founded some time ago by two borthers that wanted to provide good Italian and Mediterranean foodstuffs to people that like eating foodstuffs.</p>
-                </div>
-            </div>
+                </section>
+            </section>
         </>
     );
 };
@@ -143,13 +142,13 @@ const HomePage =() =>{
     return(
         <>
         <Hero/>
-        <div className='alternate'>
+        <section className='alternate'>
             <Specials/>
-        </div>
+        </section>
         <Testimonials/>
-        <div className='alternate'>
+        <section className='alternate'>
             <About />
-        </div>
+        </section>
         </>
     );
 };
@@ -167,7 +166,7 @@ const Order = () => {
     return(
         <>
         <h1>Order Online</h1>
-        <p className='content'>Your current cart might be shown here, added from the menu section. Or, just add the menu component here as well?</p>
+        <p className='content'>Your current cart might be shown here, added from the menu section. Include the menu as well to add further items.</p>
         </>
     );
 };
@@ -198,14 +197,23 @@ function Main() {
 
     const submitForm = async (formData) => {
         const success = await submitAPI(formData);
-        console.log("form submitted:",success);
+        //console.log("form submitted:",success);
         if(success) navigate("/bookingconf");
     };
 
     useEffect(() => {
+        let ignore = false;
         fetchAPI(date)
-            .then(data => setAvailableTimes(data))
-            .catch(error => {console.error('Error:', error);setAvailableTimes(["Invalid Date"]);});//Need to edit this for better error resolution, likely
+            .then(data => {
+                if(!ignore) {
+                    setAvailableTimes(data);
+                }
+            })
+            .catch(error => {console.error('Error:', error);
+                            setAvailableTimes(["Unavailable"]);});
+        return () => {
+            ignore = true;
+        }
     },[date]);
 
     return (

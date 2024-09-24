@@ -1,86 +1,98 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react'
+import './BookingPage.css'
 
 
 
 const BookingForm = (props) => {
     const [time, setTime]= useState("");
-    const [guests, setGuests]= useState("");
-    const [occasion, setOccasion]= useState("");
+    const [guests, setGuests]= useState("1");
+    const [occasion, setOccasion]= useState("None");
+    const [dateErr, setDateErr] = useState("");
+    const [guestErr, setGuestErr] = useState("");
+    const isDateInvalid = props.availableTimes[0]==="Unavailable";
+
+    useEffect(()=>{
+        setTime(props.availableTimes[0]);
+    },[props.availableTimes]);
 
     const clearForm = () => {
         const currentDate= new Date();
         props.setDate(currentDate.toJSON().slice(0,10));
-        setTime("");
-        setGuests("");
-        setOccasion("");
+        setTime(props.availableTimes[0]);
+        setGuests("1");
+        setOccasion("None");
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        console.log(props.date+" "+time+" "+guests+" "+occasion);
         props.submitForm({date:props.date,time:time,guests:guests,occasion:occasion});
         clearForm();
     };
 
     return(
         <>
-        <form style={{display: 'grid', maxWidth: '200px', gap: '20px',marginLeft:'20%'}} onSubmit={handleSubmit}>
-            <label htmlFor="res-date">Choose a Date</label>
-            <input value={props.date}
+        <form style={{display: 'grid', gridTemplateColumns:'1fr 1fr', maxWidth: '400px', gap: '20px'}} onSubmit={handleSubmit}>
+            <label style={{gridColumn:'1'}} htmlFor="dateInput">Choose a Date</label>
+            <input style={{gridColumn:'1'}} required value={props.date}
                     onChange={(e) => {
                         props.setDate(e.target.value);
                     }}
+                    onBlur={(e)=>{
+                        e.target.checkValidity() ? setDateErr(""):setDateErr("Please select a valid date");
+                    }}
                     type="date"
-                    id="res-date"/>
-            <label htmlFor="res-time">Choose a Time</label>
-            <select value ={time}
+                    id="dateInput"/>
+            <p id="dateEntryError" style={{gridColumn:'2',margin:'0px',color:'red'}}>{dateErr}</p>
+            <label style={{gridColumn:'1'}} htmlFor="timeInput">Choose a Time</label>
+            <select style={{gridColumn:'1'}} value = {time}
+                    {...isDateInvalid ? {className:"invalid"}:{}}
                     onChange={(e) => {
                         setTime(e.target.value);
                     }}
-                    id="res-time">
+                    id="timeInput">
                 {props.availableTimes?.map((option) => (
-                    <option key={option}>{option}</option>
+                    <option key={option} value={option}>{option}</option>
                     ))}
             </select>
-            <label htmlFor="guests">Number of guests</label>
-            <input value={guests}
+            <label htmlFor="guestInput" style={{gridColumn:'1'}} >Number of guests</label>
+            <input id="guestInput" style={{gridColumn:'1'}} value={guests}
                     onChange={(e) => {
                         setGuests(e.target.value);
                     }}
+                    onBlur={(e)=>{
+                        e.target.checkValidity() ? setGuestErr(""):setGuestErr("Guests must be between 1-10");
+                    }}
                     type="number"
                     placeholder="1"
-                    min="1" max="10"
-                    id="guests"/>
-            <label htmlFor="occasion">Occasion</label>
-            <select value ={occasion}
+                    min="1" max="10"/>
+            <p id="guestEntryError" style={{gridColumn:'2',margin:'0px',color:'red'}}>{guestErr}</p>
+            <label style={{gridColumn:'1'}} htmlFor="occasionInput">Occasion</label>
+            <select style={{gridColumn:'1'}} value ={occasion}
                     onChange={(e) => {
                         setOccasion(e.target.value);
                     }}
-                    id="occasion">
+                    id="occasionInput">
+                <option>None</option>
                 <option>Birthday</option>
                 <option>Anniversary</option>
             </select>
-            <input type="submit" value="Make Your reservation"/>
+            <input id="submitButton" aria-label="Submit Button" style={{gridColumn:'1'}} disabled={(guests < 1) || (guests > 10) || isDateInvalid} type="submit" value="Make Your Reservation"/>
         </form>
         </>
     );
 }
 
 function BookingPage(props) {
-    /*const setTimesFromDate = (date) => {
-        if(date === "2024-08-24")
-            props.setAvailableTimes(["10:00","11:00","14:00"]);
-        else if(date === "2024-08-27")
-            props.setAvailableTimes(["12:00","15:00","17:00"]);
-    };*/
     return(
         <>
         <h1>Reserve a Table</h1>
-        <div className='content'>
+        <section className='content'>
             <BookingForm availableTimes={props.availableTimes}
                         date={props.date}
                         setDate={props.setDate}
                         submitForm={props.submitForm}/>
-        </div>
+        </section>
         </>
     );
 };
